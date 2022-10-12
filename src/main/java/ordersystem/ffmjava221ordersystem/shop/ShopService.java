@@ -1,5 +1,6 @@
 package ordersystem.ffmjava221ordersystem.shop;
 
+import ordersystem.ffmjava221ordersystem.shop.model.ProductToAdd;
 import ordersystem.ffmjava221ordersystem.shop.model.Order;
 import ordersystem.ffmjava221ordersystem.shop.model.Product;
 import ordersystem.ffmjava221ordersystem.shop.repo.OrderRepo;
@@ -9,23 +10,26 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class ShopService {
 
-    private ProductRepo productRepo;
-    private OrderRepo orderRepo;
+    private final ProductRepo productRepo;
+    private final OrderRepo orderRepo;
+    private final ServiceUtils serviceUtils;
 
 
-    public ShopService(ProductRepo productRepo, OrderRepo orderRepo) {
+    public ShopService(ProductRepo productRepo, OrderRepo orderRepo, ServiceUtils serviceUtils) {
         this.productRepo = productRepo;
         this.orderRepo = orderRepo;
+        this.serviceUtils = serviceUtils;
     }
 
-    public void addProduct(Product product) {
-        String uuid = UUID.randomUUID().toString();
-        productRepo.addProduct(uuid, product);
+    public Product addProduct(ProductToAdd productToAdd) {
+        String uuid = serviceUtils.generateUUID();
+        Product newProduct = new Product(uuid,productToAdd.productNumber(),productToAdd.name(), productToAdd.price());
+        productRepo.addProduct(uuid, newProduct);
+        return newProduct;
     }
 
     public String orderProducts(List<String> productIdList) {
@@ -33,7 +37,7 @@ public class ShopService {
         for (String id : productIdList){
             productList.add(productRepo.getProduct(id));
         }
-        Order newOrder = new Order(UUID.randomUUID().toString(),productList);
+        Order newOrder = new Order(serviceUtils.generateUUID(), productList);
         orderRepo.addOrder(newOrder);
         return newOrder.orderId();
     }

@@ -1,9 +1,9 @@
 package ordersystem.ffmjava221ordersystem;
 
 import ordersystem.ffmjava221ordersystem.shop.ShopService;
+import ordersystem.ffmjava221ordersystem.shop.model.ProductToAdd;
 import ordersystem.ffmjava221ordersystem.shop.model.Order;
 import ordersystem.ffmjava221ordersystem.shop.model.Product;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +29,8 @@ public class ShopController {
     }
 
     @PostMapping("products")
-    public Product addProduct(@RequestBody Product product){
-        service.addProduct(product);
-        return product;
+    public Product addProduct(@RequestBody ProductToAdd productToAdd){
+        return service.addProduct(productToAdd);
     }
 
     @GetMapping("orders")

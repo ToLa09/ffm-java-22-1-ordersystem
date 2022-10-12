@@ -10,10 +10,10 @@ public class Main {
     public static void main(String[] args) {
 
 
-        Product product1 = new Product(1,"Banane",0.99);
-        Product product2 = new Product(2,"Apfel", 0.39 );
-        Product product3 = new Product(3,"Chips", 1.99);
-        Product product4 = new Product(4,"Kartoffeln",2.99);
+//        Product product1 = new Product(1,"Banane",0.99);
+//        Product product2 = new Product(2,"Apfel", 0.39 );
+//        Product product3 = new Product(3,"Chips", 1.99);
+//        Product product4 = new Product(4,"Kartoffeln",2.99);
 
 //        ShopService myShop = new ShopService();
 //
