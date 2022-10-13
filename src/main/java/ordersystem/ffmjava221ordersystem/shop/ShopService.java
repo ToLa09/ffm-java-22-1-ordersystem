@@ -1,5 +1,6 @@
 package ordersystem.ffmjava221ordersystem.shop;
 
+import ordersystem.ffmjava221ordersystem.shop.model.OrderStatus;
 import ordersystem.ffmjava221ordersystem.shop.model.ProductToAdd;
 import ordersystem.ffmjava221ordersystem.shop.model.Order;
 import ordersystem.ffmjava221ordersystem.shop.model.Product;
@@ -37,7 +38,7 @@ public class ShopService {
         for (String id : productIdList){
             productList.add(productRepo.getProduct(id));
         }
-        Order newOrder = new Order(serviceUtils.generateUUID(), productList);
+        Order newOrder = new Order(serviceUtils.generateUUID(), productList, OrderStatus.RECEIVED);
         orderRepo.addOrder(newOrder);
         return newOrder.orderId();
     }
@@ -47,7 +48,7 @@ public class ShopService {
         for (String productId : productIdList){
             productList.add(productRepo.getProduct(productId));
         }
-        Order newOrder = new Order(id.toString(),productList);
+        Order newOrder = new Order(id.toString(),productList, OrderStatus.RECEIVED);
         orderRepo.addOrder(newOrder);
         return newOrder.orderId();
     }
@@ -82,12 +83,16 @@ public class ShopService {
         for (String productId : productIdList){
             productList.add(productRepo.getProduct(productId));
         }
-        Order newOrder = new Order(id,productList);
+        Order newOrder = new Order(id,productList, OrderStatus.RECEIVED);
         orderRepo.addOrder(newOrder);
         return newOrder.orderId();
     }
     public void removeOrder(String id){
         orderRepo.removeOrder(id);
+    }
+
+    public void addOrderFromFlorian(String id) {
+
     }
 
 //    public Product getProductBySerialID(int serialID) {

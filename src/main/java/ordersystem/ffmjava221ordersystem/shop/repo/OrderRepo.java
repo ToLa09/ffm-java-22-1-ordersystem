@@ -36,9 +36,9 @@ public class OrderRepo {
     }
 
     public void removeOrder(String id) {
-        for (Order o : orderList){
-            if (o.orderId() == id) {
-                orderList.remove(o);
+        for (Order order : orderList){
+            if (order.orderId() == id) {
+                orderList.remove(order);
                 return;
             }
         }

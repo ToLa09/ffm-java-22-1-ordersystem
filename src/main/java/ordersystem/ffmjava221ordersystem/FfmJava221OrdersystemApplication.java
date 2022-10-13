@@ -9,5 +9,4 @@ public class FfmJava221OrdersystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(FfmJava221OrdersystemApplication.class, args);
     }
-
 }
