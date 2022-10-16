@@ -2,7 +2,6 @@ package ordersystem.ffmjava221ordersystem.shop.repo;
 
 import ordersystem.ffmjava221ordersystem.shop.model.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,21 @@ public class OrderRepo {
     }
 
     public Order getOrder(String orderId) {
-        for (Order o : orderList) {
-            if (o.orderId().equals(orderId)) {
-                return o;
+        for (Order order : orderList) {
+            if (order.orderId().equals(orderId)) {
+                return order;
             }
         }
         throw new IllegalArgumentException("Keine Bestellung mit dieser Bestellnummer gefunden");
+    }
+
+    public void removeOrder(String orderId) {
+        for (Order order : orderList){
+            if (order.orderId().equals(orderId)) {
+                orderList.remove(order);
+                return;
+            }
+        }
     }
 
     @Override
@@ -33,14 +41,5 @@ public class OrderRepo {
         return "{" +
                 "orderList=" + orderList +
                 '}';
-    }
-
-    public void removeOrder(String id) {
-        for (Order order : orderList){
-            if (order.orderId() == id) {
-                orderList.remove(order);
-                return;
-            }
-        }
     }
 }

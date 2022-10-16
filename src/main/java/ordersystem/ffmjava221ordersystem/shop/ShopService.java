@@ -8,9 +8,8 @@ import ordersystem.ffmjava221ordersystem.shop.repo.OrderRepo;
 import ordersystem.ffmjava221ordersystem.shop.repo.ProductRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
@@ -43,20 +42,6 @@ public class ShopService {
         return newOrder.orderId();
     }
 
-    public String changeOrder(String id, List<String> productIdList){
-        List<Product> productList = new ArrayList<>();
-        for (String productId : productIdList){
-            productList.add(productRepo.getProduct(productId));
-        }
-        Order newOrder = new Order(id.toString(),productList, OrderStatus.RECEIVED);
-        orderRepo.addOrder(newOrder);
-        return newOrder.orderId();
-    }
-
-    public String listProducts() {
-        return productRepo.toString();
-    }
-
     public Map<String, Product> getProductList(){
         return productRepo.getProducts();
     }
@@ -69,15 +54,19 @@ public class ShopService {
         return orderRepo.getOrder(orderId);
     }
 
-    public String listOrders(){
-        return orderRepo.toString();
-    }
-
     public List<Order> getAllOrders(){
         return orderRepo.getOrderList();
     }
 
-    public String overwriteOrder(String id, List<String> productIdList) {
+
+    public List<Order> getOrdersWithStatus(OrderStatus orderStatus){
+        return orderRepo.getOrderList()
+                .stream()
+                .filter(order -> order.orderStatus().equals(orderStatus))
+                .collect(Collectors.toList());
+    }
+
+    public Order overwriteOrder(String id, List<String> productIdList) {
         orderRepo.removeOrder(id);
         List<Product> productList = new ArrayList<>();
         for (String productId : productIdList){
@@ -85,17 +74,9 @@ public class ShopService {
         }
         Order newOrder = new Order(id,productList, OrderStatus.RECEIVED);
         orderRepo.addOrder(newOrder);
-        return newOrder.orderId();
+        return newOrder;
     }
     public void removeOrder(String id){
         orderRepo.removeOrder(id);
     }
-
-    public void addOrderFromFlorian(String id) {
-
-    }
-
-//    public Product getProductBySerialID(int serialID) {
-//        return productRepo.getProductBySerialID(serialID);
-//    }
 }

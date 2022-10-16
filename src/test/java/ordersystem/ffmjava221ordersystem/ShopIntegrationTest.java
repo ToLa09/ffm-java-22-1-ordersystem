@@ -24,7 +24,7 @@ class ShopIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void addProduct() throws Exception {
+    void addProductReturnsProductWithID() throws Exception {
         //given
         String content = mockMvc.perform(MockMvcRequestBuilders.post("/api/products")
                                     .contentType(MediaType.APPLICATION_JSON)
@@ -52,5 +52,24 @@ class ShopIntegrationTest {
                     }
                     """.replace("<id>",product.id())));
                 //.andExpect(content().json("{ \"id\": "<id>", \"productNumber\": 11, \"name\": \"Eis\", \"price\": 4.99 } "));
+    }
+
+    @Test
+    void deleteOrderReturnsEmptyOrderList() throws Exception {
+        //GIVEN
+        String orderId = mockMvc.perform(MockMvcRequestBuilders.post("/api/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    []
+                    """))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/orders/"+orderId))
+                .andExpect(status().isOk());
+        //THEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/orders"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
     }
 }
