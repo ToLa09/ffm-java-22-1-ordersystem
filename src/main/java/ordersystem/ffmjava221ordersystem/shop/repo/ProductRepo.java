@@ -52,13 +52,4 @@ public class ProductRepo {
         }
         return output;
     }
-
-    public Product getProductBySerialID(int serialID) {
-        for (Product entry: products.values()) {
-            if (entry.productNumber() == serialID) {
-                return entry;
-            }
-        }
-        throw new RuntimeException("Kein Produkt mit dieser ID vorhanden");
-    }
 }

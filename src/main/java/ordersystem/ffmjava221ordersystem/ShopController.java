@@ -54,9 +54,11 @@ public class ShopController {
         return service.orderProducts(productIdList);
     }
     @PutMapping("orders/{id}")
-    public String overwriteOrder(@RequestBody List<String> productIdList, @PathVariable String id){
-        service.overwriteOrder(id,productIdList);
-        return service.getOrder(id).toString();
+    public Order overwriteOrder(@RequestBody List<String> productIdList,
+                                 @PathVariable String id,
+                                 @RequestParam Optional<OrderStatus> status){
+        service.overwriteOrder(id,productIdList, status.orElse(null));
+        return service.getOrder(id);
     }
     @DeleteMapping("orders/{id}")
     public void removeOrder(@PathVariable String id){

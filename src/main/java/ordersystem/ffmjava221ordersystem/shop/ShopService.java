@@ -66,13 +66,16 @@ public class ShopService {
                 .collect(Collectors.toList());
     }
 
-    public Order overwriteOrder(String id, List<String> productIdList) {
+    public Order overwriteOrder(String id, List<String> productIdList, OrderStatus orderStatus) {
         orderRepo.removeOrder(id);
         List<Product> productList = new ArrayList<>();
         for (String productId : productIdList){
             productList.add(productRepo.getProduct(productId));
         }
-        Order newOrder = new Order(id,productList, OrderStatus.RECEIVED);
+        if(orderStatus == null){
+            orderStatus = orderRepo.getOrder(id).orderStatus();
+        }
+        Order newOrder = new Order(id,productList, orderStatus);
         orderRepo.addOrder(newOrder);
         return newOrder;
     }

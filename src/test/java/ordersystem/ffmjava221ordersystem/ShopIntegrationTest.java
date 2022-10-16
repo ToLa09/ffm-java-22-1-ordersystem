@@ -72,4 +72,16 @@ class ShopIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
+
+    @Test
+    void overwriteOrderReturnsChangedOrder() throws Exception {
+        String orderId = mockMvc.perform(MockMvcRequestBuilders.post("/api/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                    []
+                    """))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+    }
 }
